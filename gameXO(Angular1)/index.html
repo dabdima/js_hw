@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+    <style>
+        .col {
+            height: 50px;
+            width: 50px;
+            background-color: antiquewhite;
+            margin: 3px;
+            position: relative;
+        }
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+        .cell {
+            position: absolute;
+            height: 30px;
+            width: 30px;
+            top: 10px;
+            left: 10px;
+        }
+
+    </style>
+
+
+    <div ng-app="myApp1">
+        <div ng-controller="myApp1Controller">
+            <div> Ходит {{char}}</div>
+            <div class="row" ng-repeat="t1 in field">
+                <div class="col" ng-repeat="t3 in t1">
+                    <button class="cell" ng-click="step(t3.posX, t3.posY)">{{t3.view}}</button>
+                </div>
+            </div>
+            <div>{{winner}}</div>
+            <button ng-click="again()">Начать заново</button>
+        </div>
+    </div>
+
+
+    <script src="libs/angular.min.js"></script>
+    <script>
+
+        var myApp1 = angular.module('myApp1', []);
+        myApp1.controller('myApp1Controller', function ( $scope, $timeout) {
+            var row = 3,
+                col = 3,
+                steps = 0;
+            $scope.char = "X";
+            $scope.field = [];
+            $scope.winner;
+            for( i = 0; i < row; i++) {
+                var tArr = [];
+                for ( j = 0; j < col; j++) {
+                    tArr.push(
+                            {
+                                posX: i,
+                                posY: j,
+                                view: ""
+                            }
+                    );
+                }
+                $scope.field.push(tArr);
+            }
+            console.log($scope.field);
+            $scope.step = function (i, j) {
+                if ($scope.winner) return;
+                if ($scope.field[i][j].view === "") {
+                    $scope.field[i][j].view = $scope.char;
+                    $scope.condition();
+                    $scope.char = $scope.char === "X" ? "O" :"X";
+                }
+            };
+            $scope.condition = function () {
+                steps++;
+                if (steps > 4) {
+                    if ((($scope.field[0][0].view === $scope.char) &&
+                        ($scope.field[0][1].view === $scope.char) &&
+                        ($scope.field[0][2].view === $scope.char)) ||
+                        (($scope.field[0][0].view === $scope.char) &&
+                        ($scope.field[1][1].view === $scope.char) &&
+                        ($scope.field[2][2].view === $scope.char)) ||
+                        (($scope.field[2][0].view === $scope.char) &&
+                        ($scope.field[1][1].view === $scope.char) &&
+                        ($scope.field[0][2].view === $scope.char)) ||
+                        (($scope.field[0][0].view === $scope.char) &&
+                        ($scope.field[1][0].view === $scope.char) &&
+                        ($scope.field[2][0].view === $scope.char)) ||
+                        (($scope.field[2][0].view === $scope.char) &&
+                        ($scope.field[2][1].view === $scope.char) &&
+                        ($scope.field[2][2].view === $scope.char)) ||
+                        (($scope.field[0][2].view === $scope.char) &&
+                        ($scope.field[1][2].view === $scope.char) &&
+                        ($scope.field[2][2].view === $scope.char)) ||
+                        (($scope.field[1][0].view === $scope.char) &&
+                        ($scope.field[1][1].view === $scope.char) &&
+                        ($scope.field[1][2].view === $scope.char)) ||
+                        (($scope.field[0][1].view === $scope.char) &&
+                        ($scope.field[1][1].view === $scope.char) &&
+                        ($scope.field[2][1].view === $scope.char))) {
+                        $scope.winner = "Победитель " + $scope.char;
+                    }
+                }
+            };
+
+            $scope.again = function () {
+                $scope.winner = "";
+                steps = 0;
+                $scope.char = "X";
+                for( i = 0; i < row; i++) {
+                    for ( j = 0; j < col; j++) {
+                        $scope.field[i][j].view = "";
+                    }
+                }
+            };
+
+        });
+
+
+
+//      6at9lodi@gmail.com   Sergey
+
+
+    </script>
+
+</body>
+</html>
