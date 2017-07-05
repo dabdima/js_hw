@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="chat">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" href="libs/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="libs/angular.min.js"></script>
+</head>
+<body>
+    <style>
+        .lType1 {
+			background-color: #3E5C57;
+		}
+		.lType2 {
+			background-color: #4F6F70;
+		}
+		.statType1 {
+			background: #57615E;
+			color: #9EB0AB;
+		}
+		.statType2 {
+			background: #4E786C;
+			color: #B1E3E0;
+		}
+		.OstatType1, .OstatType2 {font-weight: bold; }
+		.OstatType1 {
+			text-shadow: -2px -3px 10px rgba(224,109,101,0.9);
+			color: #C37772;
+		}
+		.OstatType2 {
+			text-shadow: -2px -3px 10px rgba(112,219,55,0.9);
+			color: #6AC239;
+		}
+
+    </style>
+
+<div class="wrapper"  ng-controller="chatController">
+
+    <div class="container">
+
+        <div class="main_blocks b_l">
+			<div ng-repeat="usr in users">
+				<p ng-class="(usr.stat) ? 'statType2' : 'statType1'"><span ng-class="(usr.stat) ? 'OstatType2' : 'OstatType1'">o </span>{{usr.name}}</p>
+			</div>
+		</div>
+
+        <div class="main_blocks b_r">
+            <div ng-repeat="m in data.msgList">
+				<!-- <p ng-class="$even ? 'lType1' : 'lType2'"> -->
+				<!-- <p ng-class="checkNick ? 'lType1' : 'lType2'"> -->
+                <p ng-class="(data.msgList[$index].nick === data.myNick) ? 'lType1' : 'lType2'"><span class="my_nick">{{m.nick}} ({{m.time}}): </span>{{m.msg}}</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="enter_line">
+        <div class="main_blocks b_b">
+            <textarea ng-keypress="sendMsg($event)" ng-model="msgCont"></textarea>
+            <button ng-click="renderMsg()" >SEND</button>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+    <script>
+	
+        var model = {
+			myNick: "Me",
+			currentNick: "Me",
+			users: [
+				{name: "Petya", stat: true}, 
+				{name: "Vasya", stat: true},
+				{name: "Petya2", stat: true}, 
+				{name: "Vasya2", stat: false},
+				{name: "Petya3", stat: true}, 
+				{name: "Vasya2", stat: false},
+				{name: "Sveta", stat: false}, 
+				{name: "Vasya", stat: true},
+				{name: "Petya2", stat: true}, 
+				{name: "Vasya2", stat: false},
+				{name: "Petya3", stat: true}, 
+				{name: "Vasya2", stat: false},
+				{name: "Sveta", stat: false}, 
+				{name: "Dima", stat: true}
+			],
+            msgList: []
+        };
+
+        var chat = angular.module('chat', []);
+        chat.controller('chatController', function ( $scope ) {
+
+            $scope.data = model;
+			$scope.date = new Date();
+			
+			$scope.users = model.users;
+			
+			
+			
+$scope.i = 1; //temporarly !
+
+            $scope.sendMsg = function (event) {
+                if (event.keyCode == 13)
+                    $scope.renderMsg();
+            }
+            $scope.renderMsg = function () {
+			$scope.checkNick = ($scope.data.currentNick === $scope.data.myNick);
+
+			
+//temporarly !	start --		
+$scope.i++;
+if ($scope.i>6) {
+	model.currentNick = "Some remote nick";
+}
+if ($scope.i > 11) 
+model.currentNick = "Me";
+
+console.log(model.myNick);
+console.log(model.currentNick);
+//temporarly ! --end
+				
+				
+				
+				
+				if (($scope.msgCont != "") && ($scope.msgCont !== undefined)) {
+					var t = new Date();
+					$scope.data.msgList.push({
+						nick: $scope.data.currentNick,
+						msg: $scope.msgCont,
+						time: t.getHours() + ":" + t.getMinutes() + ":" + t.getSeconds()
+					});
+					$scope.msgCont = "";
+					setTimeout(function() {
+						document.getElementsByClassName("main_blocks")[1].scrollTop += 100;
+					}, 100);
+				}
+            }
+
+
+        });
+
+
+
+    </script>
+
+</body>
+</html>
