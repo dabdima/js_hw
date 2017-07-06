@@ -52,13 +52,12 @@ a {
 	width: 500px;
 	height: 350px;
 	float: right;
-	overflow: auto;
 	color: #fdfdfd;
-	text-shadow: 1px 0px 3px rgba(0,0,0,0.7);
 	font-size: 15px;
 }
+.b_r, .b_l {overflow: auto;text-shadow: 1px 0px 3px rgba(0,0,0,0.7);}
 ::-webkit-scrollbar {
-	width: 12px;
+	width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -102,14 +101,28 @@ a {
 	border-radius: 4px;
 	font-size: 16px;
 }
+.b_b button, .b_l button {
+	background-color: #37824a;
+	cursor: pointer;
+	text-shadow: 1px 0px 3px rgba(0,0,0,0.7);
+	border-radius: 4px;	
+}
+.b_b button:hover{
+	background-color: #48925c;
+}
+.b_l button:hover{
+	background-color: #48925c;
+}
+.b_l button {
+	color: #B1E3E0;
+	width: 100%;
+	margin-bottom: 5px;
+}
 .b_b button {
 	width: 15%;
 	margin-left: 5px;
-	background-color: #37824a;
-	cursor: pointer;
-	transition: 0.3s;
 }
-.b_b button,
+.b_b button, .b_l button,
 .main_blocks p {
 	-webkit-transition:  0.3s ;
 	-moz-transition:  0.3s ;
@@ -117,7 +130,5 @@ a {
 	-o-transition:  0.3s ;
 }
 
-.b_b button:hover {
-	background-color: #48925c;
-}
+
 
