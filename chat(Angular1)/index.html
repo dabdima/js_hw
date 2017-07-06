@@ -40,9 +40,13 @@
     <div class="container">
 
         <div class="main_blocks b_l">
-			<div ng-repeat="usr in users">
-				<p ng-class="(usr.stat) ? 'statType2' : 'statType1'"><span ng-class="(usr.stat) ? 'OstatType2' : 'OstatType1'">o </span>{{usr.name}}</p>
-			</div>
+			<button ng-click="showUsers()" ng-show="showUsr"><span>v  </span>HIDE USERS<span>  v</span></button>
+			<button ng-click="showUsers()" ng-hide="showUsr"><span>&#8801  </span>SHOW USERS<span>  &#8801</span></button>
+				<div ng-show="showUsr">
+					<div ng-repeat="usr in users">
+						<p ng-class="(usr.stat) ? 'statType2' : 'statType1'"><span ng-class="(usr.stat) ? 'OstatType2' : 'OstatType1'">o </span>{{usr.name}}</p>
+					</div>
+				</div>
 		</div>
 
         <div class="main_blocks b_r">
@@ -86,6 +90,12 @@
 				{name: "Vasya", stat: true},
 				{name: "Petya2", stat: true}, 
 				{name: "Vasya2", stat: false},
+				{name: "Petya3", stat: true},
+				{name: "Petya3", stat: true},
+				{name: "Petya3", stat: true},
+				{name: "Petya3", stat: true},
+				{name: "Petya3", stat: true},
+				{name: "Petya3", stat: true},
 				{name: "Petya3", stat: true}, 
 				{name: "Vasya2", stat: false},
 				{name: "Sveta", stat: false}, 
@@ -142,6 +152,12 @@ console.log(model.currentNick);
 					}, 100);
 				}
             }
+			
+			$scope.showUsr = false;
+			$scope.showUsers = function() {
+				if ($scope.showUsr === false) $scope.showUsr = true
+				else $scope.showUsr = false;
+			}
 
 
         });
