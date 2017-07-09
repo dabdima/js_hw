@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Убегающий квадрат</title>
+    <link rel="stylesheet" href="reset.css">
+</head>
+<body>
+  <style>
+    *, :after, :before, :hover{
+        box-sizing: border-box;
+        outline: none;
+    }
+  </style>
+  <script type="text/javascript">
+      (function(){
+          window.addEventListener("load", init, false);
+
+          function init() {
+              var elem = document.getElementById("elem"),
+                wr = document.body;
+              elem.addEventListener("mousedown", function (e) {
+                  drag(this, e);
+              });
+
+              //событие , чтоб квадрат убегал
+              wr.addEventListener("mousemove", function (e) {
+                  if (((e.clientX > elem.offsetLeft -50) && (e.clientX < elem.offsetLeft + 100)) &&
+                  ((e.clientY > elem.offsetTop -50) && (e.clientY < elem.offsetTop + 100))) {
+                    if ((e.clientX > elem.offsetLeft - 50) && (e.clientX < elem.offsetLeft)) {
+                      if (elem.offsetLeft > wr.clientWidth - 101) return;
+                      elem.style.left = (elem.offsetLeft + Math.floor(Math.random() * 50) - 5) + "px";
+                    }
+                    if ((e.clientY > elem.offsetTop - 50) && (e.clientY < elem.offsetTop)) {
+                      if (elem.offsetTop > wr.clientHeight - 101) return;
+                      elem.style.top = (elem.offsetTop + Math.floor(Math.random() * 50) - 5) + "px";
+                    }
+                    if ((e.clientX > elem.offsetLeft + 50) && (e.clientX < elem.offsetLeft +100)) {
+                      if (elem.offsetLeft < 51) return;
+                      elem.style.left = (elem.offsetLeft - Math.floor(Math.random() * 50) - 5) + "px";
+                    }
+                    if ((e.clientY > elem.offsetTop + 50) && (e.clientY < elem.offsetTop +100)) {
+                      if (elem.offsetTop < 51) return;
+                      elem.style.top = (elem.offsetTop - Math.floor(Math.random() * 50) - 5) + "px";
+                    }
+                  }
+
+              })
+          }
+
+          function drag(elementToDrag, event) {
+              // координаты мыши в начале перетаскивания.
+              var startX = event.clientX,
+                  startY = event.clientY;
+
+              // начальные координаты элемента, который будет перемещаться.
+              var origX = elementToDrag.offsetLeft,
+                  origY = elementToDrag.offsetTop;
+
+              // разница между координатами мыши и координатами перетаскиваемого элемента.
+              var deltaX = startX - origX,
+                  deltaY = startY - origY;
+
+              // Регистрация событий mouseup и mousemove
+              document.addEventListener("mousemove", moveHandler, true);
+              document.addEventListener("mouseup", upHandler, true);
+
+
+              function moveHandler(e) {
+                  if (!e) e = window.event;
+
+                  // перемещаем элемент с учетом отступа от первоначального клика.
+                  elementToDrag.style.left = (e.clientX - deltaX) + "px";
+                  elementToDrag.style.top = (e.clientY - deltaY) + "px";
+              }
+
+              function upHandler(e) {
+                  if (!e) e = window.event;
+
+                  document.removeEventListener("mouseup", upHandler, true);
+                  document.removeEventListener("mousemove", moveHandler, true);
+              }
+          }
+      })()
+  </script>
+
+  <div id="wrapper" style="position: relative; height: 600px; width: 100%; background-color: #eee">
+    <div id="elem" style="position: absolute; left: 100px; top: 100px; height: 50px; width: 50px; background-color: Green;">
+    </div>
+  </div>
+</body>
+</html>
